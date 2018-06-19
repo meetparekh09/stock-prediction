@@ -3,6 +3,8 @@ import os
 count = 0
 microsoftHeadlineCount = 0
 associatedHeadlineCount = 0
+yearCount = {}
+microsoftYearCount = {}
 
 for filename in os.listdir("../../Microsoft/The Wall Street Journal"):
     if filename.endswith(".txt"):
@@ -25,19 +27,42 @@ for filename in os.listdir("../../Microsoft/The Wall Street Journal"):
                     continue
                 if endOfArticle:
                     count += 1
-                    print(headline)
+                    # print(headline)
                     if 'Microsoft' in headline:
                         microsoftHeadlineCount += 1
 
                     if 'Microsoft' in headline or 'Skype' in headline or 'Xbox' in headline or 'Outlook' in headline or 'Windows' in headline:
                         associatedHeadlineCount += 1
+                        if date != '':
+                            year = int(date[-6:].replace(" ", ""))
+                            if year in microsoftYearCount.keys():
+                                microsoftYearCount[year] += 1
+                            else:
+                                microsoftYearCount[year] = 1
+                            # print(year)
                     # print(body)
-                    # print(date)
+                    print(date)
+
+                    if date != '':
+                        year = int(date[-6:].replace(" ", ""))
+                        if year in yearCount.keys():
+                            yearCount[year] += 1
+                        else:
+                            yearCount[year] = 1
+                        print(year)
+
                     headline = ''
                     body = ''
                     date = ''
                     endOfArticle = False
                     startOfArticle = True
+
+                    # try:
+                    #     year = int(s.split(',')[-1].replace(" ", ""))
+                    #     print(year)
+                    # except:
+                    #     continue
+
                     continue
 
                 if startOfArticle and line != '\n' and headline == '':
@@ -58,3 +83,6 @@ for filename in os.listdir("../../Microsoft/The Wall Street Journal"):
 print(count)
 print(microsoftHeadlineCount)
 print(associatedHeadlineCount)
+
+print(yearCount)
+print(microsoftYearCount)
