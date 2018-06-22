@@ -6,14 +6,42 @@ microsoftHeadlineCount = 0
 associatedHeadlineCount = 0
 yearCount = {}
 microsoftYearCount = {}
-# writeFile = open('./merged-file.txt', 'w')
+writeFile = open('./proquest-wsj-merged-file.txt', 'w')
 
-filelist = os.listdir("../../Microsoft/The Wall Street Journal")
+companyName = 'Walmart'
+
+def getMonthNumber(mon):
+    if mon == 'Jan' or mon == 'January':
+        return 1
+    if mon == 'Feb' or mon == 'February':
+        return 2
+    if mon == 'Mar' or mon == 'March':
+        return 3
+    if mon == 'Apr' or mon == 'April':
+        return 4
+    if mon == 'May':
+        return 5
+    if mon == 'Jun' or mon == 'June':
+        return 6
+    if mon == 'Jul' or mon == 'July':
+        return 7
+    if mon == 'Aug' or mon == 'August':
+        return 8
+    if mon == 'Sep' or mon == 'September':
+        return 9
+    if mon == 'Oct' or mon == 'October':
+        return 10
+    if mon == 'Nov' or mon == 'November':
+        return 11
+    if mon == 'Dec' or mon == 'December':
+        return 12
+
+filelist = os.listdir("../../"+companyName+"/The Wall Street Journal")
 filelist.sort()
 for filename in filelist:
     if filename.endswith(".txt"):
         # print(os.path.join("../../Microsoft/The Wall Street Journal", filename))
-        filepath = os.path.join("../../Microsoft/The Wall Street Journal", filename)
+        filepath = os.path.join("../../"+companyName+"/The Wall Street Journal", filename)
 
         startOfArticle = False
         bodyStart = False
@@ -33,15 +61,15 @@ for filename in filelist:
                     continue
                 if endOfArticle:
                     count += 1
-                    # writeFile.write(headline)
-                    # writeFile.write(date)
-                    # writeFile.write(body)
-                    # writeFile.write('\n\n')
+                    writeFile.write(headline)
+                    writeFile.write(date)
+                    writeFile.write(body)
+                    writeFile.write('\n\n')
                     # print(headline)
-                    if 'Microsoft' in headline:
+                    if 'Walmart' in headline or 'Wal-Mart' in headline:
                         microsoftHeadlineCount += 1
 
-                    if 'Microsoft' in headline or 'Skype' in headline or 'Xbox' in headline or 'Outlook' in headline or 'Windows' in headline:
+                    if 'Walmart' in headline or 'Wal-Mart' in headline:
                         associatedHeadlineCount += 1
                         if date != '':
                             year = int(date[-6:].replace(" ", ""))
@@ -49,17 +77,54 @@ for filename in filelist:
                                 microsoftYearCount[year] += 1
                             else:
                                 microsoftYearCount[year] = 1
+                            actualDate = ''.join(' '.join(date.split(' ')[2:]).split(','))
                             # print(year)
                     # print(body)
                     # print(date)
 
                     if date != '':
                         year = int(date[-6:].replace(" ", ""))
-                        if year in yearCount.keys():
-                            yearCount[year] += 1
-                        else:
+                        if year not in yearCount.keys():
                             yearCount[year] = 1
-                        # print(year)
+                        else:
+                            yearCount[year] += 1
+                        # if year not in yearCount.keys():
+                        #     yearCount[year] = {}
+                        #
+                        actualDate = ''.join(' '.join(date.split(' ')[2:]).split(','))
+                        actualDate = actualDate.replace(" ", "")
+                        # print(date)
+                        # print(actualDate)
+                        mon = getMonthNumber(actualDate[0:3])
+
+                        # if mon not in yearCount[year].keys():
+                        #     yearCount[year][mon] = 1
+                        # else:
+                        #     yearCount[year][mon] += 1
+
+                        # print(date)
+                        # print(mon)
+
+                        day = -1
+                        if len(actualDate) == 9:
+                            day = int(actualDate[3])
+                        else:
+                            day = int(actualDate[3:5])
+
+                        date = ''
+                        date += str(year)+'-'
+                        if mon < 10:
+                            date += '0'+str(mon)
+                        else:
+                            date += str(mon)
+
+                        date += '-'
+
+                        if day < 10:
+                            date += '0'+str(day)
+                        else:
+                            date += str(day)
+                        # print(date)
 
                     headline = ''
                     body = ''
@@ -96,10 +161,10 @@ for filename in filelist:
 #
 # print(yearCount)
 # print(microsoftYearCount)
-# writeFile.close()
+writeFile.close()
 
 
-# writeFile = open('./factive-wsj-merged-file.txt', 'w')
+writeFile = open('./factiva-wsj-merged-file.txt', 'w')
 def checkHeadlineCondition(line):
     return not (line == '' or line.startswith('Opinion Journal;') or line == 'Factiva' or line == 'Dow Jones' \
     or line == 'Tech' or line == 'AWSJ' or line == 'Markets' or line == 'WSJE' or line == 'Business' \
@@ -144,7 +209,7 @@ def checkHeadlineCondition(line):
 # yearCount = {}
 # microsoftYearCount = {}
 
-filelist = os.listdir("../../Microsoft/The Wall Street Journal Factiva")
+filelist = os.listdir("../../"+companyName+"/The Wall Street Journal Factiva")
 dateRegex = re.compile('[1-3]?[0-9] [a-zA-Z]* 20[0-1][0-9]')
 bodyStartRegex = re.compile('Copyright [0-9]{4} Dow Jones & Company, Inc. All Rights Reserved.')
 filelist.sort()
@@ -152,7 +217,7 @@ for filename in filelist:
     fileString = ''
     if filename.endswith(".txt"):
         # print(os.path.join("../../Microsoft/The Wall Street Journal", filename))
-        filepath = os.path.join("../../Microsoft/The Wall Street Journal Factiva", filename)
+        filepath = os.path.join("../../"+companyName+"/The Wall Street Journal Factiva", filename)
 
         with open(filepath) as file:
             for line in file:
@@ -188,7 +253,7 @@ for filename in filelist:
                 # print(headline)
                 # print(date)
                 # print(body)
-                if 'Microsoft' in headline or 'Skype' in headline or 'Xbox' in headline or 'Outlook' in headline or 'Windows' in headline:
+                if 'Walmart' in headline or 'Wal-Mart' in headline:
                     associatedHeadlineCount += 1
                     if date != '':
                         year = int(date[-5:].replace(" ", ""))
@@ -196,34 +261,191 @@ for filename in filelist:
                             microsoftYearCount[year] += 1
                         else:
                             microsoftYearCount[year] = 1
-                if 'Microsoft' in headline:
+                if 'Walmart' in headline or 'Wal-Mart' in headline:
                     microsoftHeadlineCount += 1
 
 
 
                 if date != '':
-                    year = int(date[-5:].replace(" ", ""))
-                    if year in yearCount.keys():
-                        yearCount[year] += 1
-                    else:
+                    splitDate = date.split(' ')
+                    year = int(splitDate[2])
+                    mon = getMonthNumber(splitDate[1])
+                    day = int(splitDate[0])
+
+                    if year not in yearCount.keys():
                         yearCount[year] = 1
+                    else:
+                        yearCount[year] += 1
+                    # if year not in yearCount.keys():
+                        # yearCount[year] = {}
+
+                    # if mon not in yearCount[year].keys():
+                    #     yearCount[year][mon] = 1
+                    # else:
+                    #     yearCount[year][mon] += 1
+
+                    date = ''
+                    date += str(year)+'-'
+                    if mon < 10:
+                        date += '0'+str(mon)
+                    else:
+                        date += str(mon)
+
+                    date += '-'
+
+                    if day < 10:
+                        date += '0'+str(day)
+                    else:
+                        date += str(day)
+                    # print(date)
                     # print(year)
                 count += 1
 
-                # writeFile.write(headline+'\n')
-                # writeFile.write(date+'\n')
-                # writeFile.write(body)
-                # writeFile.write('\n\n')
+                writeFile.write(headline+'\n')
+                writeFile.write(date+'\n')
+                writeFile.write(body)
+                writeFile.write('\n\n')
                 # input()
                 fileString = fileString[loc+3:]
                 loc = fileString.find('\n\n\n')
                 if loc == -1:
                     break
+#
+# print(count)
+# print(microsoftHeadlineCount)
+# print(associatedHeadlineCount)
+# print(yearCount)
+# print(microsoftYearCount)
+
+writeFile.close()
+
+
+writeFile = open('./proquest-nytimes-merged-file.txt', 'w')
+filelist = os.listdir("../../"+companyName+"/The New York Times")
+filelist.sort()
+for filename in filelist:
+    if filename.endswith(".txt"):
+        # print(os.path.join("../../Microsoft/The New York Times", filename))
+        filepath = os.path.join("../../"+companyName+"/The New York Times", filename)
+
+        startOfArticle = False
+        bodyStart = False
+        bodyEnd = True
+        endOfArticle = True
+        headline = ''
+        body = ''
+        date = ''
+
+        with open(filepath) as file:
+            # file.readline()
+            for line in file:
+                if line == '____________________________________________________________\n':
+                    startOfArticle = not startOfArticle
+                    endOfArticle = not endOfArticle
+                if line == '\n':
+                    continue
+                if endOfArticle:
+                    count += 1
+                    writeFile.write(headline)
+                    writeFile.write(date)
+                    writeFile.write(body)
+                    writeFile.write('\n\n')
+                    # print(headline)
+                    if 'Walmart' in headline or 'Wal-Mart' in headline:
+                        microsoftHeadlineCount += 1
+
+                    if 'Walmart' in headline or 'Wal-Mart' in headline:
+                        associatedHeadlineCount += 1
+                        if date != '':
+                            year = int(date[-6:].replace(" ", ""))
+                            if year in microsoftYearCount.keys():
+                                microsoftYearCount[year] += 1
+                            else:
+                                microsoftYearCount[year] = 1
+                            # print(year)
+                    # print(body)
+                    # print(date)
+
+                    if date != '':
+                        year = int(date[-6:].replace(" ", ""))
+                        # if year not in yearCount.keys():
+                        #     yearCount[year] = {}
+                        if year not in yearCount.keys():
+                            yearCount[year] = 1
+                        else:
+                            yearCount[year] += 1
+
+                        actualDate = ''.join(' '.join(date.split(' ')[2:]).split(','))
+                        actualDate = actualDate.replace(" ", "")
+                        # print(date)
+                        # print(actualDate)
+                        mon = getMonthNumber(actualDate[0:3])
+
+                        # if mon not in yearCount[year].keys():
+                        #     yearCount[year][mon] = 1
+                        # else:
+                        #     yearCount[year][mon] += 1
+
+                        # print(date)
+                        # print(mon)
+
+                        day = -1
+                        if len(actualDate) == 9:
+                            day = int(actualDate[3])
+                        else:
+                            day = int(actualDate[3:5])
+
+                        date = ''
+                        date += str(year)+'-'
+                        if mon < 10:
+                            date += '0'+str(mon)
+                        else:
+                            date += str(mon)
+
+                        date += '-'
+
+                        if day < 10:
+                            date += '0'+str(day)
+                        else:
+                            date += str(day)
+                        # print(date)
+
+                    headline = ''
+                    body = ''
+                    date = ''
+                    endOfArticle = False
+                    startOfArticle = True
+
+                    # try:
+                    #     year = int(s.split(',')[-1].replace(" ", ""))
+                    #     print(year)
+                    # except:
+                    #     continue
+
+                    continue
+
+                if startOfArticle and line != '\n' and line != '____________________________________________________________\n' and headline == '':
+                    headline = line
+                if startOfArticle and line.startswith('Full text:'):
+                    bodyStart = True
+                    bodyEnd = False
+                if startOfArticle and (line.startswith('Credit:') or line.startswith('Title:')) or line.startswith('Subject:'):
+                     bodyStart = False
+                     bodyEnd = True
+
+                if startOfArticle and line.startswith('Publication date:'):
+                    date = line
+
+                if startOfArticle and bodyStart:
+                    body += line
 
 print(count)
 print(microsoftHeadlineCount)
 print(associatedHeadlineCount)
 print(yearCount)
 print(microsoftYearCount)
+writeFile.close()
 
-# writeFile.close()
+# for k, _ in yearCount.items():
+#     for key, value in yearCount[k].items():
+#         print(str(k)+','+str(key)+','+str(value))
