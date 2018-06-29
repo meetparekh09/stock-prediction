@@ -8,7 +8,7 @@ yearCount = {}
 microsoftYearCount = {}
 writeFile = open('./proquest-wsj-merged-file.txt', 'w')
 
-companyName = 'Walmart'
+companyName = 'Microsoft'
 
 def getMonthNumber(mon):
     if mon == 'Jan' or mon == 'January':
@@ -66,10 +66,10 @@ for filename in filelist:
                     writeFile.write(body)
                     writeFile.write('\n\n')
                     # print(headline)
-                    if 'Walmart' in headline or 'Wal-Mart' in headline:
+                    if 'Microsoft' in headline or 'Microsoft' in headline:
                         microsoftHeadlineCount += 1
 
-                    if 'Walmart' in headline or 'Wal-Mart' in headline:
+                    if 'Microsoft' in headline or 'Microsoft' in headline:
                         associatedHeadlineCount += 1
                         if date != '':
                             year = int(date[-6:].replace(" ", ""))
@@ -211,7 +211,7 @@ def checkHeadlineCondition(line):
 
 filelist = os.listdir("../../"+companyName+"/The Wall Street Journal Factiva")
 dateRegex = re.compile('[1-3]?[0-9] [a-zA-Z]* 20[0-1][0-9]')
-bodyStartRegex = re.compile('Copyright [0-9]{4} Dow Jones & Company, Inc. All Rights Reserved.')
+bodyStartRegex = re.compile('(Copyright [0-9]{4} Dow Jones & Company, Inc. All Rights Reserved.)|(Copyright \\(c\\) [0-9]{4}, Dow Jones & Company, Inc.)')
 filelist.sort()
 for filename in filelist:
     fileString = ''
@@ -253,7 +253,7 @@ for filename in filelist:
                 # print(headline)
                 # print(date)
                 # print(body)
-                if 'Walmart' in headline or 'Wal-Mart' in headline:
+                if 'Microsoft' in headline or 'Microsoft' in headline:
                     associatedHeadlineCount += 1
                     if date != '':
                         year = int(date[-5:].replace(" ", ""))
@@ -261,7 +261,7 @@ for filename in filelist:
                             microsoftYearCount[year] += 1
                         else:
                             microsoftYearCount[year] = 1
-                if 'Walmart' in headline or 'Wal-Mart' in headline:
+                if 'Microsoft' in headline or 'Microsoft' in headline:
                     microsoftHeadlineCount += 1
 
 
@@ -351,10 +351,10 @@ for filename in filelist:
                     writeFile.write(body)
                     writeFile.write('\n\n')
                     # print(headline)
-                    if 'Walmart' in headline or 'Wal-Mart' in headline:
+                    if 'Microsoft' in headline or 'Microsoft' in headline:
                         microsoftHeadlineCount += 1
 
-                    if 'Walmart' in headline or 'Wal-Mart' in headline:
+                    if 'Microsoft' in headline or 'Microsoft' in headline:
                         associatedHeadlineCount += 1
                         if date != '':
                             year = int(date[-6:].replace(" ", ""))
