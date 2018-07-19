@@ -7,6 +7,8 @@ lit_words_count = 0
 neg_words_count = 0
 pos_words_count = 0
 uncer_words_count = 0
+hrvd_neg_words_count = 0
+hrvd_pos_words_count = 0
 
 with corenlp.CoreNLPClient(annotators="tokenize ssplit".split()) as client:
     with open('microsoft-sentence-split.txt') as file:
@@ -31,6 +33,12 @@ with corenlp.CoreNLPClient(annotators="tokenize ssplit".split()) as client:
                 if word in load_dictionary.uncer_words_set:
                     load_dictionary.uncer_words[word] += 1
                     uncer_words_count += 1
+                if word in load_dictionary.hrvd_neg_words_set:
+                    load_dictionary.hrvd_neg_words[word] += 1
+                    hrvd_neg_words_count += 1
+                if word in load_dictionary.hrvd_pos_words_set:
+                    load_dictionary.hrvd_pos_words[word] += 1
+                    hrvd_pos_words_count += 1
 
 
 print('Constraining Word Count :: ' + str(cons_words_count))
@@ -38,3 +46,5 @@ print('Litiguous Word Count :: ' + str(lit_words_count))
 print('Negative Word Count :: ' + str(neg_words_count))
 print('Positive Word Count :: ' + str(pos_words_count))
 print('Uncertain Word Count :: ' + str(uncer_words_count))
+print('Hrvd Positive Word Count :: ' + str(hrvd_pos_words_count))
+print('Hrvd Negative Word Count :: ' + str(hrvd_neg_words_count))
