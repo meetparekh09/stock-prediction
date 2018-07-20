@@ -24,7 +24,7 @@ with open('../Harvard IV Psychological Dictionary/positiv.txt') as file:
         line = line[:-1]
         if line not in hrvd_pos_words.keys():
             hrvd_pos_words[line] = 0
-            hrvd_neg_words_set.add(line)
+            hrvd_pos_words_set.add(line)
 
 with open('../Harvard IV Psychological Dictionary/negativ.txt') as file:
     for line in file:
