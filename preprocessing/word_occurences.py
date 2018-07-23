@@ -20,7 +20,7 @@ with corenlp.CoreNLPClient(annotators="tokenize ssplit".split()) as client:
         for line in file:
             print(line)
             if line == '\n':
-                date = ''
+                # date = ''
                 continue
             elif date_regex.fullmatch(line[:-1]) is not None:
                 if line[:-1] not in data.keys():
@@ -71,10 +71,11 @@ print('Uncertain Word Count :: ' + str(uncer_words_count))
 print('Hrvd Positive Word Count :: ' + str(hrvd_pos_words_count))
 print('Hrvd Negative Word Count :: ' + str(hrvd_neg_words_count))
 
+print(data)
 
 with open('data.csv', 'w') as file:
     file.write('date, cons, lit, neg, pos, uncer, hrvd_neg, hrvd_pos\n')
-    dates = data.keys()
+    dates = list(data.keys())
     dates.sort()
     for date in dates:
         file.write(date + ',' \

@@ -55,11 +55,13 @@ with open('microsoft-sentence-split.txt') as file:
                 if len(day) == 1:
                     day = '0'+day
                 year = date.split(',')[1].split(' ')[1]
+                if len(year) != 4:
+                    print(headline)
                 # print(year)
-                print(mon)
+                # print(mon)
                 # print(day)
                 # print(headline)
                 date = year + '-' + mon + '-' + day + '\n'
-                print(date)
+                # print(date)
             else:
                 body += line
